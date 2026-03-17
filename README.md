@@ -278,7 +278,7 @@ export const environment = {
 3. **Ejecutar aplicación**
 ```bash
 npm start
-# Aplicación disponible en: http://localhost:4200
+# Aplicación disponible en: http://localhost:4200 o http://localhost:4201
 ```
 
 ---
@@ -344,7 +344,7 @@ npm start
 
 ## 🌐 URLs de Acceso
 
-- **Frontend Angular**: `http://localhost:4200`
+- **Frontend Angular**: `http://localhost:4200` o `http://localhost:4201`
 - **Backend API**: `https://localhost:7001`
 - **Swagger Documentation**: `https://localhost:7001/swagger`
 
@@ -367,7 +367,3 @@ Para contribuir al proyecto:
 5. Abrir Pull Request
 
 ---
-
-## 📞 Soporte
-
-Para soporte técnico o consultas sobre el sistema, contactar al equipo de desarrollo.
