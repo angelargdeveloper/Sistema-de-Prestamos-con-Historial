@@ -44,7 +44,7 @@ export class HistorialPrestamoComponent implements OnInit {
     });
   }
 
-  // Método público para mostrar el modal y cargar el historial
+
   mostrarHistorial(prestamoId: number, nombreEmpleado: string): void {
     this.prestamoId = prestamoId;
     this.nombreEmpleado = nombreEmpleado;
@@ -52,7 +52,7 @@ export class HistorialPrestamoComponent implements OnInit {
     this.loadHistorial();
   }
 
-  // Método para cerrar el modal
+
   cerrarModal(): void {
     this.modalVisible = false;
     this.historial = [];

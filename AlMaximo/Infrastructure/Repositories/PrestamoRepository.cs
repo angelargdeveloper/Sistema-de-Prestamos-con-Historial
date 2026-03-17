@@ -42,7 +42,6 @@ namespace AlMaximo.Infrastructure.Repositories
                 var totalPrestamosActivos2 = await _context.Prestamos.Where(p => p.Activo).CountAsync();
                 System.Diagnostics.Debug.WriteLine($"DEBUG: Solo Activo: {totalPrestamosActivos2}");
                 
-                // Intentar sin filtro de activo para ver si los datos están ahí
                 var prestamos = await _context.Prestamos
                     .Include(p => p.Empleado)
                     .Include(p => p.TipoPagoAbono)

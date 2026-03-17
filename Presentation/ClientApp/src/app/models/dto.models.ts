@@ -124,7 +124,7 @@ export interface CatalogosDto {
   tiposPagoAbono: TipoPagoAbonoDto[];
 }
 
-// Interfaces para respuestas de API
+
 export interface ApiResponse<T> {
   data: T;
   success: boolean;

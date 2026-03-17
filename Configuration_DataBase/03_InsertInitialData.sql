@@ -1,6 +1,3 @@
--- Script para insertar datos iniciales
--- Fecha: 16/mar/2026
-
 USE AlMaximoLoansDB;
 GO
 

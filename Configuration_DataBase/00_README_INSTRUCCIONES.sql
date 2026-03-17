@@ -1,4 +1,4 @@
--- Script principal para ejecutar todos los scripts de base de datos
+-- Instrucciones para configurar la base de datos del sistema AlMaximo
 -- Fecha: 16/mar/2026
 -- IMPORTANTE: Ejecutar cada script en orden
 

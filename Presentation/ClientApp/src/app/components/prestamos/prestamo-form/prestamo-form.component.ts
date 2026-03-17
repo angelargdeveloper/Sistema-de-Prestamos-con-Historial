@@ -211,7 +211,7 @@ export class PrestamoFormComponent implements OnInit {
     this.router.navigate(['/prestamos']);
   }
 
-  // Métodos auxiliares para el template
+  // Validaciones y utilidades
   isFieldInvalid(fieldName: string): boolean {
     const field = this.prestamoForm.get(fieldName);
     return !!(field && field.invalid && field.touched);

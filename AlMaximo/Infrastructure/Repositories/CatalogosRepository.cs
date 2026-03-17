@@ -29,10 +29,8 @@ namespace AlMaximo.Infrastructure.Repositories
                     e.NumNomina.Contains(busqueda));
             }
 
-            // Obtener total de elementos
             var totalItems = await query.CountAsync();
 
-            // Aplicar paginación y proyección
             var empleados = await query
                 .OrderBy(e => e.Apellido1)
                 .ThenBy(e => e.Apellido2)

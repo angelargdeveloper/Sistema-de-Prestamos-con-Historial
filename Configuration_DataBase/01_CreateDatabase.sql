@@ -1,6 +1,3 @@
--- Script para crear la base de datos del sistema de préstamos AlMaximo
--- Fecha: 16/mar/2026
-
 USE master;
 GO
 

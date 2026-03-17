@@ -1,6 +1,3 @@
--- Script para crear las tablas del sistema de préstamos
--- Fecha: 16/mar/2026
-
 USE AlMaximoLoansDB;
 GO
 

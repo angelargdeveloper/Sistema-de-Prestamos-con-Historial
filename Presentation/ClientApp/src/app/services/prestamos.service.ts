@@ -17,7 +17,7 @@ export class PrestamosService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todos los préstamos con paginación
+
   getPrestamos(pageNumber: number = 1, pageSize: number = 10, busqueda?: string): Observable<PaginatedResponse<PrestamoDto>> {
     let params = new HttpParams()
       .set('pageNumber', pageNumber.toString())
@@ -48,35 +48,31 @@ export class PrestamosService {
     );
   }
 
-  // Obtener un préstamo por ID
+
   getPrestamo(id: number): Observable<PrestamoDto> {
     return this.http.get<PrestamoDto>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<PrestamoDto>(`getPrestamo id=${id}`))
     );
   }
 
-  // Crear un nuevo préstamo
   createPrestamo(prestamo: CreatePrestamoDto): Observable<ApiResponse<number>> {
     return this.http.post<ApiResponse<number>>(this.apiUrl, prestamo).pipe(
       catchError(this.handleError<ApiResponse<number>>('createPrestamo'))
     );
   }
 
-  // Actualizar un préstamo
   updatePrestamo(id: number, prestamo: UpdatePrestamoDto): Observable<ApiResponse<boolean>> {
     return this.http.put<ApiResponse<boolean>>(`${this.apiUrl}/${id}`, prestamo).pipe(
       catchError(this.handleError<ApiResponse<boolean>>(`updatePrestamo id=${id}`))
     );
   }
 
-  // Eliminar un préstamo
   deletePrestamo(id: number): Observable<ApiResponse<boolean>> {
     return this.http.delete<ApiResponse<boolean>>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError<ApiResponse<boolean>>(`deletePrestamo id=${id}`))
     );
   }
 
-  // Obtener historial de cambios de un préstamo
   getHistorialPrestamo(id: number): Observable<PrestamoHistorialDto[]> {
     return this.http.get<PrestamoHistorialDto[]>(`${this.apiUrl}/${id}/historial`).pipe(
       catchError(this.handleError<PrestamoHistorialDto[]>('getHistorialPrestamo', []))

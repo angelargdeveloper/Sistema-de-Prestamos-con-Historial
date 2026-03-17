@@ -17,7 +17,6 @@ export class CatalogosService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener empleados (extraer datos del resultado paginado)
   getEmpleados(): Observable<EmpleadoDto[]> {
     const url = `${this.apiUrl}/empleados?pageSize=1000`;
     return this.http.get<PagedResultDto<EmpleadoDto>>(url)
@@ -26,17 +25,14 @@ export class CatalogosService {
       );
   }
 
-  // Obtener empleados autorizadores (corregir URL)
   getAutorizadores(): Observable<EmpleadoAutorizadorDto[]> {
     return this.http.get<EmpleadoAutorizadorDto[]>(`${this.apiUrl}/empleados-autorizadores`);
   }
 
-  // Obtener tipos de pago
   getTiposPagoAbono(): Observable<TipoPagoAbonoDto[]> {
     return this.http.get<TipoPagoAbonoDto[]>(`${this.apiUrl}/tipos-pago`);
   }
 
-  // Obtener todos los catálogos
   getCatalogos(): Observable<CatalogosDto> {
     return this.http.get<CatalogosDto>(`${this.apiUrl}/todos`);
   }
