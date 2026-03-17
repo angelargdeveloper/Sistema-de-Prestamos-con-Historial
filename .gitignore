@@ -1,0 +1,75 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+*.log
+
+# Visual Studio 2015/2017/2019/2022 cache/options directory
+.vs/
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet Packages
+*.nupkg
+packages/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular
+/Presentation/ClientApp/dist/
+/Presentation/ClientApp/.angular/
+/Presentation/ClientApp/.sass-cache/
+/Presentation/ClientApp/connect.lock
+/Presentation/ClientApp/coverage/
+/Presentation/ClientApp/libpeerconnection.log
+/Presentation/ClientApp/testem.log
+/Presentation/ClientApp/typings/
+
+# Environment variables
+.env
+
+# Database
+*.mdf
+*.ldf
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

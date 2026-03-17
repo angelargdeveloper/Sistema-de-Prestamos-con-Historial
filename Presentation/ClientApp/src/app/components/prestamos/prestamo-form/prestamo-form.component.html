@@ -1,0 +1,316 @@
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">
+          <i class="fas fa-file-contract me-2"></i>
+          {{ isEditMode ? 'Editar Préstamo' : 'Nuevo Préstamo' }}
+        </h1>
+        <button 
+          type="button" 
+          class="btn btn-outline-secondary"
+          (click)="onCancel()"
+          [disabled]="loading">
+          <i class="fas fa-arrow-left me-2"></i>
+          Volver a la lista
+        </button>
+      </div>
+
+      <!-- Error Alert -->
+      <div class="alert alert-danger alert-dismissible fade show" *ngIf="error" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        {{ error }}
+        <button type="button" class="btn-close" (click)="error = ''" aria-label="Close"></button>
+      </div>
+
+      <!-- Loading -->
+      <div class="text-center py-5" *ngIf="loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2">Cargando información del préstamo...</p>
+      </div>
+
+      <!-- Form -->
+      <form [formGroup]="prestamoForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        <div class="row">
+          <!-- Información del Empleado -->
+          <div class="col-12 col-lg-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title mb-0">
+                  <i class="fas fa-user me-2"></i>
+                  Información del Empleado
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="empleadoId" class="form-label">
+                    Empleado <span class="text-danger">*</span>
+                  </label>
+                  <select 
+                    class="form-select"
+                    [class.is-invalid]="isFieldInvalid('empleadoId')"
+                    id="empleadoId"
+                    formControlName="empleadoId">
+                    <option value="">Seleccione un empleado...</option>
+                    <option *ngFor="let empleado of empleados" [value]="empleado.id">
+                      {{ empleado.numNomina }} - {{ empleado.nombreCompleto }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="isFieldInvalid('empleadoId')">
+                    {{ getFieldError('empleadoId') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Información del Préstamo -->
+          <div class="col-12 col-lg-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title mb-0">
+                  <i class="fas fa-money-bill-wave me-2"></i>
+                  Información Financiera
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="cantidadTotalPrestada" class="form-label">
+                        Cantidad Prestada <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input 
+                          type="number" 
+                          class="form-control"
+                          [class.is-invalid]="isFieldInvalid('cantidadTotalPrestada')"
+                          id="cantidadTotalPrestada"
+                          formControlName="cantidadTotalPrestada"
+                          placeholder="0.00"
+                          step="0.01"
+                          min="0.01"
+                          (blur)="calcularInteres()">
+                      </div>
+                      <div class="invalid-feedback" *ngIf="isFieldInvalid('cantidadTotalPrestada')">
+                        {{ getFieldError('cantidadTotalPrestada') }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="interesAprobado" class="form-label">
+                        Interés Aprobado (%) <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group">
+                        <input 
+                          type="number" 
+                          class="form-control"
+                          [class.is-invalid]="isFieldInvalid('interesAprobado')"
+                          id="interesAprobado"
+                          formControlName="interesAprobado"
+                          placeholder="0.00"
+                          step="0.01"
+                          min="0"
+                          max="100"
+                          (blur)="calcularInteres()">
+                        <span class="input-group-text">%</span>
+                      </div>
+                      <div class="invalid-feedback" *ngIf="isFieldInvalid('interesAprobado')">
+                        {{ getFieldError('interesAprobado') }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="cantidadTotalAPagar" class="form-label">
+                        Total a Pagar <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input 
+                          type="number" 
+                          class="form-control"
+                          [class.is-invalid]="isFieldInvalid('cantidadTotalAPagar')"
+                          id="cantidadTotalAPagar"
+                          formControlName="cantidadTotalAPagar"
+                          placeholder="0.00"
+                          step="0.01"
+                          min="0.01">
+                      </div>
+                      <div class="invalid-feedback" *ngIf="isFieldInvalid('cantidadTotalAPagar')">
+                        {{ getFieldError('cantidadTotalAPagar') }}
+                      </div>
+                      <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Se calcula automáticamente al ingresar el interés
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="interesMoratorio" class="form-label">
+                        Interés Moratorio (%) <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group">
+                        <input 
+                          type="number" 
+                          class="form-control"
+                          [class.is-invalid]="isFieldInvalid('interesMoratorio')"
+                          id="interesMoratorio"
+                          formControlName="interesMoratorio"
+                          placeholder="0.00"
+                          step="0.01"
+                          min="0"
+                          max="100">
+                        <span class="input-group-text">%</span>
+                      </div>
+                      <div class="invalid-feedback" *ngIf="isFieldInvalid('interesMoratorio')">
+                        {{ getFieldError('interesMoratorio') }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Información de Pagos -->
+          <div class="col-12 col-lg-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title mb-0">
+                  <i class="fas fa-calendar-alt me-2"></i>
+                  Información de Pagos
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="tipoPagoAbonoId" class="form-label">
+                    Tipo de Pago <span class="text-danger">*</span>
+                  </label>
+                  <select 
+                    class="form-select"
+                    [class.is-invalid]="isFieldInvalid('tipoPagoAbonoId')"
+                    id="tipoPagoAbonoId"
+                    formControlName="tipoPagoAbonoId">
+                    <option value="">Seleccione el tipo de pago...</option>
+                    <option *ngFor="let tipo of tiposPagoAbono" [value]="tipo.id">
+                      {{ tipo.descripcion }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="isFieldInvalid('tipoPagoAbonoId')">
+                    {{ getFieldError('tipoPagoAbonoId') }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="fechaPrimerPago" class="form-label">
+                        Fecha Primer Pago
+                      </label>
+                      <input 
+                        type="date" 
+                        class="form-control"
+                        id="fechaPrimerPago"
+                        formControlName="fechaPrimerPago">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                      <label for="fechaFinalPago" class="form-label">
+                        Fecha Final de Pago
+                      </label>
+                      <input 
+                        type="date" 
+                        class="form-control"
+                        id="fechaFinalPago"
+                        formControlName="fechaFinalPago">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Información de Autorización -->
+          <div class="col-12 col-lg-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5 class="card-title mb-0">
+                  <i class="fas fa-user-check me-2"></i>
+                  Autorización y Notas
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="autorPersonaQueAutorizaId" class="form-label">
+                    Persona que Autoriza <span class="text-danger">*</span>
+                  </label>
+                  <select 
+                    class="form-select"
+                    [class.is-invalid]="isFieldInvalid('autorPersonaQueAutorizaId')"
+                    id="autorPersonaQueAutorizaId"
+                    formControlName="autorPersonaQueAutorizaId">
+                    <option value="">Seleccione quien autoriza...</option>
+                    <option *ngFor="let autorizador of autorizadores" [value]="autorizador.id">
+                      {{ autorizador.nombreCompleto }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="isFieldInvalid('autorPersonaQueAutorizaId')">
+                    {{ getFieldError('autorPersonaQueAutorizaId') }}
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="notas" class="form-label">
+                    Notas Adicionales
+                  </label>
+                  <textarea 
+                    class="form-control"
+                    id="notas"
+                    formControlName="notas"
+                    rows="4"
+                    placeholder="Ingrese cualquier nota adicional sobre el préstamo..."></textarea>
+                  <small class="text-muted">
+                    Campo opcional para información adicional
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <button 
+            type="button" 
+            class="btn btn-outline-secondary"
+            (click)="onCancel()"
+            [disabled]="loading">
+            <i class="fas fa-times me-2"></i>
+            Cancelar
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="loading || prestamoForm.invalid">
+            <i class="fas fa-spinner fa-spin me-2" *ngIf="loading"></i>
+            <i class="fas fa-save me-2" *ngIf="!loading"></i>
+            {{ isEditMode ? 'Actualizar' : 'Guardar' }} Préstamo
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
